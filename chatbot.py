@@ -45,22 +45,22 @@ with st.sidebar:
         st.markdown("[Get a Cohere API Key](https://dashboard.cohere.ai/api-keys)")
     
     my_documents = []
-    selected_doc = st.selectbox("Select your departure location", ["Tai Tam Middle School", "Repulse Bay"])
-    if selected_doc == "Tai Tam Bus Schedule":
-        my_documents = pdf_to_documents('docs/HKISTaiTamBusSchedule.pdf')
-    elif selected_doc == "Repulse Bay Bus Schedule":    
-        my_documents = pdf_to_documents('docs/HKISRepulseBayBusSchedule.pdf')
+    selected_doc = st.selectbox("Select your workout type", ["Upper body", "Lower body"])
+    if selected_doc == "Upper body":
+        my_documents = pdf_to_documents('docs/UpperBody.pdf')
+    elif selected_doc == "Lower body":    
+        my_documents = pdf_to_documents('docs/LowerBody.pdf')
     else:
-        my_documents = pdf_to_documents('docs/HKISTaiTamBusSchedule.pdf')
+        my_documents = pdf_to_documents('docs/UpperBody.pdf')
 
     # st.write(f"Selected document: {selected_doc}")
 
 # Set the title of the Streamlit app
-st.title("💬 HKIS Bus Helper")
+st.title("💬 Your Workout Buddy")
 
 # Initialize the chat history with a greeting message
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "text": "Hi! I'm the HKIS Bus Helper. Select your location from the dropdown then ask me where you'd like to go and I'll do my best to find a school bus that will get you there."}]
+    st.session_state["messages"] = [{"role": "assistant", "text": "Ask me anything and I can help you structure your next workout!"}]
 
 # Display the chat messages
 for msg in st.session_state.messages:
@@ -79,14 +79,17 @@ if prompt := st.chat_input():
     # Display the user message in the chat window
     st.chat_message("user").write(prompt)
 
-    preamble = """You are the Hong Kong International School Bus Helper bot. You help people understand the bus schedule.
-    When someone mentions a location you should refer to the document to see if there are buses that stop nearby.
-    Respond with advice about which buses will stop the closest to their destination, the name of the stop they 
-    should get off at and the name of the suburb that the stop is located in. 
-    Finish with brief instructions for how they can get from the stop to their destination.
-    Group the buses you recommend by the time they depart. If the document is about Tai Tam then group your recommendations by the following departure times: 3:15, 4:20 and 5pm. 
-    If the document is about repulse bay then state the departure time is 4pm.
-    """
+    preamble = """"You are a workout helper chat bot. Users input types of workouts or muscles. You respond with advice
+    about what types of exercises work different muscles"""
+    
+    #""""You are the Hong Kong International School Bus Helper bot. You help people understand the bus schedule.
+    #When someone mentions a location you should refer to the document to see if there are buses that stop nearby.
+    #Respond with advice about which buses will stop the closest to their destination, the name of the stop they 
+    #should get off at and the name of the suburb that the stop is located in. 
+    #Finish with brief instructions for how they can get from the stop to their destination.
+    #Group the buses you recommend by the time they depart. If the document is about Tai Tam then group your recommendations by the following departure times: 3:15, 4:20 and 5pm. 
+    #If the document is about repulse bay then state the departure time is 4pm.
+    #"""
 
     # Send the user message and pdf text to the model and capture the response
     response = client.chat(chat_history=st.session_state.messages,
