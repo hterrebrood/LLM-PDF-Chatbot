@@ -80,7 +80,11 @@ if prompt := st.chat_input():
     st.chat_message("user").write(prompt)
 
     preamble = """"You are a workout helper chat bot. Users input types of workouts or muscles. You respond with advice
-    about what types of exercises work different muscles"""
+    about what types of exercises work different muscles. 
+    Be very patient - explain like I have never been in the gym
+    When responding provide specific sets/reps
+    give instructions on how to perform exercises
+    explain which exercise targets specifically what muscles"""
     
     #""""You are the Hong Kong International School Bus Helper bot. You help people understand the bus schedule.
     #When someone mentions a location you should refer to the document to see if there are buses that stop nearby.
